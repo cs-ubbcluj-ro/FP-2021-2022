@@ -29,10 +29,10 @@ def one_is_ten(first, second):
     return first == 10 or second == 10 or (first + second == 10)
 
 
-a = int(input("Enter a"))
-b = int(input('Enter b'))
-
-print(one_is_ten(a, b))
+# a = int(input("Enter a"))
+# b = int(input('Enter b'))
+#
+# print(one_is_ten(a, b))
 
 """
 2. Write a Python program which iterates the integers from 1 to 50. 
@@ -41,6 +41,37 @@ For numbers which are multiples of both three and five print "FizzBuzz".
 
 FizzBuzz over the top: https://www.tomdalling.com/blog/software-design/fizzbuzz-in-too-much-detail/
 """
+
+
+def fizz_buzz():
+    # Defines an empty list in Python
+    values = []  # or list()
+    i = 1
+    while i < 51:
+        if i % 3 == 0 and i % 5 == 0:
+            values.append("FizzBuzz")
+            # print("FizzBuzz")
+        elif i % 3 == 0:
+            values.append("Fizz")
+            # print("Fizz")
+        elif i % 5 == 0:
+            values.append("Buzz")
+            # print("Buzz")
+        i = i + 1
+    return values
+
+
+strings = fizz_buzz()
+print(type(strings))
+
+# range(included, excluded) -> generator function
+for i in range(0, len(strings)):
+    print(strings[i])
+
+print("Print list items directly")
+# let's take list values directly
+for string in strings:
+    print(string)
 
 """
 3. Calculate the first n terms of the Fibonacci sequence
