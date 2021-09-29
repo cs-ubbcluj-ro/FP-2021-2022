@@ -61,17 +61,17 @@ def fizz_buzz():
     return values
 
 
-strings = fizz_buzz()
-print(type(strings))
-
-# range(included, excluded) -> generator function
-for i in range(0, len(strings)):
-    print(strings[i])
-
-print("Print list items directly")
-# let's take list values directly
-for string in strings:
-    print(string)
+# strings = fizz_buzz()
+# print(type(strings))
+#
+# # range(included, excluded) -> generator function
+# for i in range(0, len(strings)):
+#     print(strings[i])
+#
+# print("Print list items directly")
+# # let's take list values directly
+# for string in strings:
+#     print(string)
 
 """
 3. Calculate the first n terms of the Fibonacci sequence
@@ -85,10 +85,23 @@ Question - How do we validate the code above for user input?
 
 """
 4. Given a non-empty string like "Code" return a string like "CCoCodCode"
-    stringSplosion('Code') → 'CCoCodCode'
-    stringSplosion('abc') → 'aababc'
-    stringSplosion('ab') → 'aab'
+    string_splosion('Code') → 'CCoCodCode'
+    string_splosion('abc') → 'aababc'
+    string_splosion('ab') → 'aab'
 """
+
+
+def string_splosion(s):
+    result = ""
+    j = 0
+
+    for i in range(1, len(s) + 1):
+        result = result + s[0:i]
+
+    return result
+
+
+print(string_splosion('Code'))
 
 """
 5. Given 2 strings, a and b, return the number of the positions where they contain the same length 2
