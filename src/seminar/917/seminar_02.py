@@ -35,3 +35,114 @@ The application will have a menu-driven user interface and will provide the foll
         - We can develop this program in a feature-driven manner by going through functionalities
         - We don't use global variables!
 """
+
+"""
+    Non-UI functions go here
+"""
+
+
+def init_circles():
+    """
+    Create a few test circles
+    :return: List of created circles
+    """
+    return [create_circle(0, 0, 1), create_circle(1, 1, 2), create_circle(2, 1, 3), create_circle(3, 3, 3)]
+
+
+# Circle functions are here
+# circle = [1, 2, 3] -> center at (1,2) and radius 3
+
+# Decouple using the circle from the way it's represented
+
+
+def create_circle(x, y, rad):
+    """
+    Function to create a circle object
+    :param x,y - circle center
+    :param rad - circle radius, rad > 0
+    :return The new circle, or None if circle could not be created
+    """
+    if rad < 0:
+        return None  # we learn about exceptions next week !?
+    return [x, y, rad]
+
+
+# We use 'setters' and 'getters'
+
+def get_center(circle):
+    return circle[0], circle[1]  # returns a tuple, so no worries
+
+
+def get_radius(circle):
+    return circle[2]
+
+
+def equal_circles(circle_1, circle_2):
+    # TODO Shallow or deep checking !?
+    return get_center(circle_1) == get_center(circle_2)
+
+
+def add_circle(circle_list, circle):
+    """
+    Add a new circle to the list
+    :param circle_list: The list of circles
+    :param circle: The new circle
+    :return: True if circle was added successfully, False otherwise
+    """
+    for circ in circle_list:
+        if equal_circles(circ, circle):
+            return False
+    circle_list.append(circle)
+    return True
+
+
+"""
+    UI goes here
+"""
+
+
+def add_circle_ui(circle_list):
+    # TODO Crash if read values not actual ints
+    circle_x = int(input("Enter x="))
+    circle_y = int(input("Enter y="))
+    circle_rad = int(input("Enter radius="))
+
+    circle = create_circle(circle_x, circle_y, circle_rad)
+    if circle is None:
+        # Radius might be < 0
+        print('Invalid circle')
+    elif add_circle(circle_list, circle) == False:
+        print("Two circles cannot have the same center")
+    else:
+        print("Circle added successfully!")
+
+
+def show_all_circles(circles):
+    for circle in circles:
+        print('center at ' + str(get_center(circle)) + " radius = " + str(get_radius(circle)))
+
+
+def print_menu():
+    print("1. Add circle")
+    print("3. Show all circles")
+    print("5. Exit")
+
+
+def start():
+    circle_list = init_circles()
+
+    while True:
+        print_menu()
+        option = input("User option: ")
+
+        if option == '1':
+            add_circle_ui(circle_list)
+        elif option == '3':
+            show_all_circles(circle_list)
+        elif option == '5':
+            return
+        else:
+            print("Option does not exist")
+
+
+start()
