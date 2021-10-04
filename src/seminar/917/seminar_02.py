@@ -101,6 +101,17 @@ def add_circle(circle_list, circle):
 """
 
 
+def delete_circle_ui(circle_list):
+    show_all_circles(circle_list)
+    # TODO Crash if read value not actual int
+    index = int(input("Which circle would you like to delete? "))
+
+    if index < 1 or index > len(circle_list):
+        print("Invalid index")
+    else:
+        circle_list.pop(index - 1)
+
+
 def add_circle_ui(circle_list):
     # TODO Crash if read values not actual ints
     circle_x = int(input("Enter x="))
@@ -118,12 +129,15 @@ def add_circle_ui(circle_list):
 
 
 def show_all_circles(circles):
+    count = 1
     for circle in circles:
-        print('center at ' + str(get_center(circle)) + " radius = " + str(get_radius(circle)))
+        print(str(count) + '/ center at ' + str(get_center(circle)) + " radius = " + str(get_radius(circle)))
+        count += 1
 
 
 def print_menu():
     print("1. Add circle")
+    print("2. Delete circle")
     print("3. Show all circles")
     print("5. Exit")
 
@@ -137,6 +151,8 @@ def start():
 
         if option == '1':
             add_circle_ui(circle_list)
+        elif option == '2':
+            delete_circle_ui(circle_list)
         elif option == '3':
             show_all_circles(circle_list)
         elif option == '5':
