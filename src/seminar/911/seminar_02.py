@@ -57,20 +57,24 @@ def create_student(student_id, student_name, student_grade):
     """
     if len(student_id) < 1 or len(student_name) < 3 or student_grade < 1 or student_grade > 10:
         return None
-    return student_id, student_name, student_grade
+    # return student_id, student_name, student_grade
+    return {'id': student_id, 'name': student_name, 'grade': student_grade}
 
 
 # use getters / setters to access / modify student fields
 def get_id(student):
-    return student[STUDENT_ID]
+    # return student[STUDENT_ID]
+    return student['id']
 
 
 def get_name(student):
-    return student[STUDENT_NAME]
+    # return student[STUDENT_NAME]
+    return student['name']
 
 
 def get_grade(student):
-    return student[STUDENT_GRADE]
+    # return student[STUDENT_GRADE]
+    return student['grade']
 
 
 # Non-student specific code
@@ -79,16 +83,65 @@ def generate_students():
             create_student('118', "Lazar Lucian", 10), create_student('119', "Astalus Marcel", 6)]
 
 
+def add_student(student_list, student):
+    """
+    Add a student to the list of students
+    :param student_list: Student list
+    :param student: New student instance
+    :return: True if student successfully added, False otherwise
+    """
+    for s in student_list:
+        if get_id(student) == get_id(s):
+            return False
+
+    student_list.append(student)
+    return True
+
+
+def delete_student(student_list, student_id):
+    """
+    Delete the student with the given ID
+    :param student_list: The list of all students
+    :param student_id: Student_id to delete
+    :return: True on success, False if student id does not exist
+    """
+    for s in student_list:
+        if get_id(s) == student_id:
+            student_list.remove(s)
+            return True
+    return False
+
+
 """
     UI functions go here
 """
 
 
-def add_student_ui():
-    pass
+def delete_student_ui(student_list):
+    student_id = input("Student id ")
+    if not delete_student(student_list, student_id):
+        print("Student could not be deleted")
+
+
+def add_student_ui(student_list):
+    student_id = input("Student id ")
+    student_name = input("Student name ")
+    # TODO Crash if values cannot be converted to an integer, or in case of empty string
+    student_grade = int(input("Student grade "))
+
+    student = create_student(student_id, student_name, student_grade)
+    if student is None:
+        print("Cannot create student")
+        return
+
+    if not add_student(student_list, student):
+        print("Duplicate student id!")
 
 
 def show_all_students(student_list):
+    # key is a named argument, get_name is a reference to a function
+    student_list.sort(reverse=True, key=get_grade)
+
     # First we calculate the longest student name
     just_limit = -1
     for student in student_list:
@@ -101,6 +154,7 @@ def show_all_students(student_list):
 
 def print_menu():
     print("1. Add student")
+    print("2. Delete student")
     print("3. Show all students")
     print("5. Exit")
 
@@ -113,7 +167,9 @@ def start():
         option = input("Enter option =")
 
         if option == '1':
-            add_student_ui()
+            add_student_ui(student_list)
+        elif option == '2':
+            delete_student_ui(student_list)
         elif option == '3':
             show_all_students(student_list)
         elif option == '5':
