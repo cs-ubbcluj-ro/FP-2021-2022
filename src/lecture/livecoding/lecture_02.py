@@ -101,7 +101,37 @@ test_to_str()
 
 
 # How do we store the calculator's state?
+# Keep list of intermediate results for undo operation
+# Current calculator value is the last item in the list
 def init_calculator():
+    return [create_rational()]  # calc with default value 0/1 and no history for undo
+
+
+def get_value_calculator(calc):
+    return calc[-1]  # last item in calculator
+
+
+def set_value_calculator(calc, q):
+    calc.append(q)
+
+
+def add_calculator(calc, q):
+    """
+    Add a number to the calculator
+    :param calc: Calculator instance
+    :param q: Number
+    :return: ?
+    """
+    new_total = add(q, get_value_calculator(calc))
+    set_value_calculator(calc, new_total)
+
+
+def undo_calculator(calc):
+    """
+    Undo the last operation carried out
+    :param calc:  Calculator instance
+    :return: ?
+    """
     pass
 
 
@@ -112,6 +142,12 @@ def init_calculator():
 """
 
 
+def read_rational():
+    n = int(input("Numerator: "))
+    d = int(input("Denominator: "))
+    return create_rational(n, d)
+
+
 def print_menu():
     print("\t+ add number to calculator")
     print("\tu undo the last operation")
@@ -119,15 +155,23 @@ def print_menu():
 
 
 def start():
-    print_menu()
+    # Don't use global vars
+    calc = init_calculator()
 
     while True:
+        print_menu()
+        print("TOTAL: " + to_str(get_value_calculator(calc)))
+
         # initialize calculator -> 0 default value
         option = input("Option: ")
         # perform operation
         if option == 'x':
             return
+        elif option == '+':
+            q = read_rational()
+            add_calculator(calc, q)
         else:
             print("Invalid input")
 
-# start()
+
+start()
