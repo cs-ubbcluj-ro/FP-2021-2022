@@ -2,14 +2,14 @@
 Seminar 3
     -> add Exceptions
     -> implement command-based user interface
-        add 100, Pop Marian, 5
-        delete 2,3, 4, 6 # delete students having one of those id's
-        delete 2 - 10 # delete all students where 2 <= id <= 10
-        list # display the list of students
+        add 100, Pop Marian, 5                           # add student
+        add 100, Pop Marian, 5; 101, Damian Liliana, 10  # add student(s)
+        delete 2,3, 4, 6                                 # delete students having one of those id's
+        delete 2 - 10                                    # delete all students where 2 <= id <= 10
+        list                                             # display the list of students
         exit
     -> add unit tests
 """
-
 
 """
     Non-UI functions are here
@@ -31,9 +31,10 @@ def create_student(student_id, student_name, student_grade):
     :param student_name: Name (name is length at least 3)
     :param student_grade: Grade (int between 1 and 10)
     :return: Student, or None if student could not be created
+    :except ValueError in case student could not be created
     """
     if len(student_id) < 1 or len(student_name) < 3 or student_grade < 1 or student_grade > 10:
-        return None
+        raise ValueError('Cannot create student using given data!')
     # return student_id, student_name, student_grade
     return {'id': student_id, 'name': student_name, 'grade': student_grade}
 
@@ -66,13 +67,12 @@ def add_student(student_list, student):
     :param student_list: Student list
     :param student: New student instance
     :return: True if student successfully added, False otherwise
+    :except ValueError in case duplicate student id
     """
     for s in student_list:
         if get_id(student) == get_id(s):
-            return False
-
+            raise ValueError("Duplicate student id!")
     student_list.append(student)
-    return True
 
 
 def delete_student(student_list, student_id):
@@ -94,6 +94,21 @@ def delete_student(student_list, student_id):
 """
 
 
+def add_students_command(student_list, command_params):
+    """
+    add 100, Pop Marian, 5                           # add student
+    add 100, Pop Marian, 5; 101, Damian Liliana, 10  # add student(s)
+    """
+    student_tokens = command_params.split(";")
+    for tokens in student_tokens:
+        try:
+            student_id, student_name, student_grade = tokens.split(',')
+            student = create_student(student_id.strip(), student_name.strip(), int(student_grade.strip()))
+            add_student(student_list, student)
+        except ValueError as ve:
+            print(str(ve))
+
+
 def delete_student_ui(student_list):
     student_id = input("Student id ")
     if not delete_student(student_list, student_id):
@@ -103,16 +118,25 @@ def delete_student_ui(student_list):
 def add_student_ui(student_list):
     student_id = input("Student id ")
     student_name = input("Student name ")
-    # TODO Crash if values cannot be converted to an integer, or in case of empty string
-    student_grade = int(input("Student grade "))
 
-    student = create_student(student_id, student_name, student_grade)
-    if student is None:
-        print("Cannot create student")
-        return
+    '''
+    RN Here we have 2 ways of handling errors -> C-way (return codes), and Python way (exceptions)
+    Return codes:
+        -> 0 on success (usually)
+        -> 1 in case of error_1, 2 if error_2 etc.
+        -> it's implicit, not explicit => only works if you check return values
+        
+    Exceptions:
+        -> explicit (Python mantra says explicit >> implicit)
+        -> You can see the error-handling code at work
+    '''
 
-    if not add_student(student_list, student):
-        print("Duplicate student id!")
+    try:
+        student_grade = int(input("Student grade "))
+        student = create_student(student_id, student_name, student_grade)
+        add_student(student_list, student)
+    except ValueError as ve:
+        print(str(ve))
 
 
 def show_all_students(student_list):
@@ -136,7 +160,7 @@ def print_menu():
     print("5. Exit")
 
 
-def start():
+def start_menu():
     student_list = generate_students()
 
     while True:
@@ -155,4 +179,34 @@ def start():
             print("Invalid option!")
 
 
-start()
+def start_command():
+    """
+    add 100, Pop Marian, 5                           # add student
+    add 100, Pop Marian, 5; 101, Damian Liliana, 10  # add student(s)
+    delete 2,3, 4, 6                                 # delete students having one of those id's
+    delete 2 - 10                                    # delete all students where 2 <= id <= 10
+    list                                             # display the list of students
+    exit
+    """
+    student_list = generate_students()
+
+    while True:
+        command = input("prompt> ")
+        tokens = command.split(" ", maxsplit=1)
+        command_word = tokens[0]
+        command_params = tokens[1] if len(tokens) == 2 else None
+        print(command_word, command_params)
+
+        if command_word == 'add':
+            add_students_command(student_list, command_params)
+        elif command_word == 'list':
+            show_all_students(student_list)
+        elif command_word == 'exit':
+            return
+        else:
+            print("Bad command!")
+
+    # start_menu()
+
+
+start_command()
