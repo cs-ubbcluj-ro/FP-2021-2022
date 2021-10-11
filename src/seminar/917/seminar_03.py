@@ -75,6 +75,19 @@ def add_circle(circle_list, circle):
     circle_list.append(circle)
 
 
+def split_command(command):
+    """
+    Divide user command into command word and parameters
+    :param command: User command
+    :return: [command word, command parameters]
+    """
+    # Remove whitespace at beginning & end of command
+    command = command.strip()
+    # Remove whitespace between command word and params
+    aux = command.split(sep=' ', maxsplit=1)
+    return [aux[0].strip().lower(), aux[1].strip()] if len(aux) == 2 else [aux[0].strip().lower(), None]
+
+
 """
     UI goes here
 """
@@ -89,6 +102,20 @@ def delete_circle_ui(circle_list):
         print("Invalid index")
     else:
         circle_list.pop(index - 1)
+
+
+def add_circle_command_ui(circle_list, command_params):
+    # add 0, 0, 1
+
+    aux = []
+    params = command_params.split(',')
+    for param in params:
+        aux.append(param.strip())
+
+    circle_x = int(aux[0])
+    circle_y = int(aux[1])
+    circle_rad = int(aux[2])
+    add_circle(circle_list, create_circle(circle_x, circle_y, circle_rad))
 
 
 def add_circle_ui(circle_list):
@@ -127,7 +154,10 @@ def print_menu():
     print("5. Exit")
 
 
-def start():
+def start_menu():
+    """
+    Start menu-based UI
+    """
     circle_list = init_circles()
 
     while True:
@@ -146,4 +176,37 @@ def start():
             print("Option does not exist")
 
 
-start()
+def start_command():
+    """
+    Start command-based UI
+
+    <command word> <command parameters>
+
+    add 0,0,1 # (add circle at (0,0) radius 1)
+    delete 0,0; 1,1 # delete circles at center (0,0) and (1,1)
+    list # display the list of circles
+    exit
+    """
+    circle_list = init_circles()
+
+    while True:
+        command = input("prompt> ")
+        command_word, command_params = split_command(command)
+
+        try:
+            if command_word == 'list':
+                # Try to reuse as many functions as possible
+                show_all_circles(circle_list)
+            elif command_word == 'add':
+                # Might quit with ValueError
+                add_circle_command_ui(circle_list, command_params)
+            elif command_word == 'exit':
+                return
+            else:
+                print("Command does not exist")
+        except ValueError as ve:
+            print(str(ve))
+
+
+start_command()
+# start_menu()
