@@ -115,10 +115,43 @@ def init_circles():
     return [create_circle(1, 1, 1), create_circle(1, 2, 3), create_circle(2, 1, 7), create_circle(3, 3, 2)]
 
 
+def split_command(command):
+    """
+    Divide user input into command word and command parameters
+    :param command: User command
+    :return: Tuple of (<command word>,<command parameters>)
+    """
+    aux = command.split(" ", maxsplit=1)
+    command_word = aux[0]
+    command_param = aux[1] if len(aux) == 2 else None
+    return command_word, command_param
+
+
+def test_split_command():
+    assert split_command('add 0,0,1') == ('add', '0,0,1')
+    assert split_command('add 0,0,1; 2,2,1') == ('add', '0,0,1; 2,2,1')
+    assert split_command('delete 0,0; 1,1') == ('delete', '0,0; 1,1')
+    assert split_command('delete 10') == ('delete', '10')
+    assert split_command('list') == ('list', None)
+    assert split_command('exit') == ('exit', None)
+
+
+test_split_command()
+
 """
     UI functions are here
         - program talks to the user via print/input statements 
 """
+
+
+def add_circle_command(circle_list, param):
+    new_circles = param.split("; ")
+    for circle in new_circles:
+        x, y, rad = circle.split(",")
+        try:
+            add_circle(circle_list, create_circle(int(x), int(y), int(rad)))
+        except ValueError as ve:
+            print("Circle could not be added: " + x, y, rad)
 
 
 def show_circles(circle_list):
@@ -180,7 +213,7 @@ def print_menu():
     print("5. Exit")
 
 
-def start():
+def start_menu():
     circle_list = init_circles()
 
     while True:
@@ -203,4 +236,33 @@ def start():
             print(str(ve))
 
 
-start()
+def start_command():
+    """
+    add 0,0,1       # add circle at (0,0) and radius 1
+    add 0,0,1; 2,2,1
+    delete 0,0; 1,1 # delete circles at center (0,0) and (1,1)
+    delete 10       # deletes circle at index 10
+    list            # display the list of circles
+    exit
+    """
+    circle_list = init_circles()
+
+    while True:
+        command = input("prompt> ")
+        command_word, command_params = split_command(command)
+
+        try:
+            if command_word == 'list':
+                show_circles(circle_list)
+            elif command_word == 'add':
+                add_circle_command(circle_list, command_params)
+            elif command_word == 'exit':
+                return
+            else:
+                print("Bad command!")
+        except ValueError as ve:
+            print(str(ve))
+
+
+# start_menu()
+start_command()
