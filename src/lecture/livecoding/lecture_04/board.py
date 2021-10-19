@@ -46,6 +46,7 @@ def set_board_pos(board, x, y, symbol):
 
 
 def is_board_full(board):
+    # TODO Count the number of symbols placed
     for row in range(3):
         for col in range(3):
             if get_board_pos(board, row, col) == 0:
