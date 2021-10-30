@@ -50,6 +50,12 @@ class Game:
     Strategy design pattern - https://en.wikipedia.org/wiki/Strategy_pattern
 """
 
+# interface IStrategy
+# {
+#     public Move move(Board b);
+# }
+
+
 
 class MoveFirstStrategy:
     def move(self, board):

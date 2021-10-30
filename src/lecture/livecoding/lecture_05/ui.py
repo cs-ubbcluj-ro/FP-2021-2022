@@ -57,6 +57,6 @@ class GameUI:
         else:
             print("It's a draw!")
 
-
+print(__name__)
 ui = GameUI()
 ui.start()
