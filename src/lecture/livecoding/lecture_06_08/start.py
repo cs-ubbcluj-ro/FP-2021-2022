@@ -1,3 +1,4 @@
+from lecture.livecoding.lecture_06_08.domain.ingredient import Ingredient
 from lecture.livecoding.lecture_06_08.repo.repository import Repository
 from lecture.livecoding.lecture_06_08.services.ingredientService import IngredientService
 from lecture.livecoding.lecture_06_08.services.productService import ProductService
@@ -64,6 +65,8 @@ Modules -> responsible for one thing only (SRP)
 # 1. Pick which repository implementation we want to use
 ingr_repo = Repository()
 prod_repo = Repository()
+
+ingr_repo.add(Ingredient(100, 'flour', 100))
 
 # 2. Start the service to work with the selected repository
 ingr_service = IngredientService(ingr_repo)
