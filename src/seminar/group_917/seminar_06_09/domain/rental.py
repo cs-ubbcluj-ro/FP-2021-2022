@@ -2,6 +2,10 @@ from datetime import date
 
 
 class Rental:
+    """
+    Rental object has relation to a Client object and a Car object
+    """
+
     def __init__(self, rental_id, start, end, client, car):
         self._rentalId = rental_id
         self._client = client
@@ -45,6 +49,7 @@ class Rental:
     def end(self, end):
         self._end = end
 
+    # implementation of len(...) builtin function
     def __len__(self):
         if self._end is not None:
             return (self._end - self._start).days + 1
