@@ -16,7 +16,7 @@ class CarRepository:
         # TODO Implement
         pass
 
-    def filter(self, license_plate, make, model, color):
+    def filter(self, license_plate=None, make=None, model=None, color=None):
         """
         Return the list of cars which pass the provided filter(s)
 
@@ -48,3 +48,5 @@ class CarRepository:
     2. filter them in the repo (repo.filter)
     3. print out filtered list
 """
+r = CarRepository()
+r.filter(make='Skoda')

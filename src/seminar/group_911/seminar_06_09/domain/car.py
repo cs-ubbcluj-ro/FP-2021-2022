@@ -39,6 +39,7 @@ class Car:
     def color(self, new_color):
         self._color = new_color
 
+    # car_1 == car_2
     def __eq__(self, z):
         if isinstance(z, Car) is False:
             return False
@@ -50,3 +51,50 @@ class Car:
 
     def __repr__(self):
         return str(self)
+
+
+def generate_cars(n=50):
+    """
+    Generate a number of cars
+    :param n:
+    :return: List of n cars generated pseudo-randomly
+    """
+    result = []
+    for i in range(n):
+        # TODO Generate car here
+        """
+        Car('100', 'CJ 10 WER', 'Dacia', 'Sandero', 'red')
+        
+        we need list of manufacturers, models and colors 
+        
+        1. Generate the ID 
+            option 1 - list of random numbers to pop() from
+            option 2 - start from a number and increment by 1
+        2. Generate license plate number
+            - We need a list of existing counties (an example, not exhaustive)
+            - County is not 'B'
+                - Generate a random number in [1,99], and if <10 append '0' at the beggining ('05')
+            - County is 'B'
+                - Generate a random number in [1,999], and if <10 append '0' at the beggining ('05')
+            - Combination of three letters -> random.choices(string.ascii_uppercase, k=3)
+            !! Check that license plate is unique!
+        3. Have a dictionary where keys are car manufacturers (e.g. Audi, Skoda, Dacia) and values are lists of models
+        for each manufacturer (e.g. [A4, Q3], [Fabia, Octavia], [Lodgy, Dokker], respectively)
+        4. List of hard-coded colors (['red','blue','yellow','green'])
+        """
+        # result.append(car)
+        pass
+
+    return result
+
+
+
+
+# c = Car('100', 'CJ 10 WER', 'Dacia', 'Sandero', 'red')
+# data = [c, c, c]
+#
+# # for car in data:
+# #     print(car)
+# #
+# # print(c)
+# print(data)
