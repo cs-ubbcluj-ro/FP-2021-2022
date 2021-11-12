@@ -4,11 +4,16 @@ Implement the domain class
 
 
 class Car:
-    def __init__(self, license_plate="n/a", make='', model='', color=''):
+    def __init__(self, id_, license_plate="n/a", make='', model='', color=''):
+        self._id = id_
         self._license_plate = license_plate
         self._make = make
         self._model = model
         self._color = color
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def license_plate(self):
@@ -25,11 +30,6 @@ class Car:
     @property
     def model(self):
         return self._model
-
-    '''
-    @property is a Python decorator 
-    decorator = function that wraps color() and provides additional functionality
-    '''
 
     @property
     def color(self):
@@ -56,45 +56,33 @@ class Car:
 def generate_cars(n=50):
     """
     Generate a number of cars
-    :param n: how many cars to generate
-    :return: List of generated cars
+    :param n:
+    :return: List of n cars generated pseudo-randomly
     """
-    data = []
+    result = []
     for i in range(n):
-        # TODO Generate a random car here
+        # TODO Generate car here
         """
-        How to generate a random car?
+        Car('100', 'CJ 10 WER', 'Dacia', 'Sandero', 'red')
         
-        1. Generate the license plate
-            - Have a list of counties and randomly select one of them (random.choice(...))
-            - Generate a number using randrange(1, 100) and convert to str(...)
-            # if number < 10:
-            #    number_str = '0' + str(number)
-            #  else: 
-            #    number_str = str(number)
-            # <=>
-            #  number_str = str(number) if number > 9 else '0' + str(number)     
-                        
-            - Select 3 random letters from the list of uppercase letters
-                list of uppercase letters - import string / string.ascii_uppercase / random.choices
+        we need list of manufacturers, models and colors 
         
-        2. Generate car make and model dict where keys are makers (BMW, Dacia) and the values are lists of the maker's 
-           models (Serie 1, X5 and Lodgy, Dokker respectively)
-           
-        3. Generate color - choose from a predefined list of colors
+        1. Generate the ID 
+            option 1 - list of random numbers to pop() from
+            option 2 - start from a number and increment by 1
+        2. Generate license plate number
+            - We need a list of existing counties (an example, not exhaustive)
+            - County is not 'B'
+                - Generate a random number in [1,99], and if <10 append '0' at the beggining ('05')
+            - County is 'B'
+                - Generate a random number in [1,999], and if <10 append '0' at the beggining ('05')
+            - Combination of three letters -> random.choices(string.ascii_uppercase, k=3)
+            !! Check that license plate is unique!
+        3. Have a dictionary where keys are car manufacturers (e.g. Audi, Skoda, Dacia) and values are lists of models
+        for each manufacturer (e.g. [A4, Q3], [Fabia, Octavia], [Lodgy, Dokker], respectively)
+        4. List of hard-coded colors (['red','blue','yellow','green'])
         """
-        # data.append(car)
+        # result.append(car)
         pass
-    return data
 
-
-import string
-import random
-
-print(string.ascii_uppercase)
-
-c = Car('CJ 10 TYU', 'Dacia', 'Duster', 'blue')
-
-print(ord('A'))
-print(ord('Z'))
-print(chr(70))
+    return result

@@ -45,6 +45,7 @@ class Rental:
     def end(self, end):
         self._end = end
 
+    # len(rental)
     def __len__(self):
         if self._end is not None:
             return (self._end - self._start).days + 1

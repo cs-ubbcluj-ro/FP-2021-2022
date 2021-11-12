@@ -2,12 +2,6 @@
 Implement the domain class
 """
 
-'''
-V1 - Act as a constant field
-V2 - We'll read this from a file
-'''
-CAR_COUNTIES = ['AB', 'CJ', 'B', 'CT', 'IS', 'TL']
-
 
 class Car:
     def __init__(self, id_, license_plate="n/a", make='', model='', color=''):
@@ -45,7 +39,7 @@ class Car:
     def color(self, new_color):
         self._color = new_color
 
-    # ==  car_1 == car_2 ?
+    # car_1 == car_2
     def __eq__(self, z):
         if isinstance(z, Car) is False:
             return False
@@ -59,89 +53,36 @@ class Car:
         return str(self)
 
 
-class ValidatorException(Exception):
-    def __init__(self, message_list):
-        self._messages = message_list
-
-    def __str__(self):
-        return str(self._messages)
-
-
-"""
-Java/C# - compiled languages
-
-interface ICarValidator {
-    public validate(Car c) throws ValidatorException; 
-}
-
-class CarValidatorRO implements ICarValidator {
-}  
-
-
-"""
-
-
-class CarValidatorRO:
-    def validate(self, car):
-        """
-        Validate car instance
-        What to check for here:
-            car id is an integer
-            check license plate validity (list of counties is a module-level constant), apply rules from generate_cars
-
-        :param car:
-        :return: None
-        :exception ValidatorException raised in case invalid car, exception stores ALL validation errors
-        """
-        if isinstance(car, Car) == False:
-            # This should not appear in a working program
-            raise ValidatorException(["Instance is not a car"])
-
-        messages = []
-        if car.id < 100 or car.id > 10 ** 5:
-            messages.append("Invalid ID value")
-        if str(car.id).isnumeric() is False:
-            messages.append("Car ID is not numeric value")
-        # License plate - counties
-        tokens = car.license_plate.split(" ")
-        if tokens[0] not in CAR_COUNTIES:
-            messages.append("No such county")
-        # TODO Some more checks required
-
-        if len(messages) > 0:
-            raise ValidatorException(messages)
-
-
-class CarValidatorES:
-    def validate(self, car):
-        """
-        Car validator for Spain
-        :param car:
-        :return:
-        """
-        pass
-
-
-def generate_cars(n=10):
+def generate_cars(n=50):
     """
-    Generate n number of Car instances
+    Generate a number of cars
     :param n:
-    :return: List of Car instances
-
-    id -> v1 (random integer between 100 and 100000) and check for duplicates
-          v2 start from 100 and increment at each car
-          [see German tank problem]
-
-    license_plate -> (list of counties) + (random between 01 - 99) + (three random letters)
-
-            (three random letters) -> v1 list of capital letters we select from
-                                      v2 random integer between [65,90] for each of the three letters
+    :return: List of n cars generated pseudo-randomly
     """
-    data = list()
+    result = []
     for i in range(n):
-        # TODO Implement this according to comments above
-        # car = Car (...)
-        # data.append(car)
+        # TODO Generate car here
+        """
+        Car('100', 'CJ 10 WER', 'Dacia', 'Sandero', 'red')
+        
+        we need list of manufacturers, models and colors 
+        
+        1. Generate the ID 
+            option 1 - list of random numbers to pop() from
+            option 2 - start from a number and increment by 1
+        2. Generate license plate number
+            - We need a list of existing counties (an example, not exhaustive)
+            - County is not 'B'
+                - Generate a random number in [1,99], and if <10 append '0' at the beggining ('05')
+            - County is 'B'
+                - Generate a random number in [1,999], and if <10 append '0' at the beggining ('05')
+            - Combination of three letters -> random.choices(string.ascii_uppercase, k=3)
+            !! Check that license plate is unique!
+        3. Have a dictionary where keys are car manufacturers (e.g. Audi, Skoda, Dacia) and values are lists of models
+        for each manufacturer (e.g. [A4, Q3], [Fabia, Octavia], [Lodgy, Dokker], respectively)
+        4. List of hard-coded colors (['red','blue','yellow','green'])
+        """
+        # result.append(car)
         pass
 
-    return data
+    return result

@@ -86,15 +86,3 @@ def generate_cars(n=50):
         pass
 
     return result
-
-
-
-
-# c = Car('100', 'CJ 10 WER', 'Dacia', 'Sandero', 'red')
-# data = [c, c, c]
-#
-# # for car in data:
-# #     print(car)
-# #
-# # print(c)
-# print(data)

@@ -34,13 +34,13 @@ Plan:
     week 7 -> work on statistics
     week 8 -> start the undo/redo implementation
     week 9 -> persist data to text/binary file, settings.properties etc.
-    
+
 What to do for week 6 attendance:
     carrental.domain (1 class to implement) 
         - implement Car OR Client class
             - add the required attributes as properties
             - make sure this class has a read-only id property (getter but no setter)
-    
+
     carrental.repository (1 class to implement)
         - implement class Repository (application data store)
             - has a list or a dict of Client/Car instances
@@ -48,22 +48,34 @@ What to do for week 6 attendance:
                 - add -> adds Car/Client to repo, raise RepoException if object with that id already stored
                 - delete (by id)
                 - get_all (return all instances)
-        
+
     carrental.service (1 class to implement)
         - implement Car OR Client service (e.g. CarService)
             - methods to add/delete an instance, or return all of them
-    
+
     carrental.ui (1 class to implement)
         - menu to add a Car/Client
-        
+
 How do these layers work?
     ui -> service (CarService.add_car)          -> repository (Repository.add_car) 
              -> create Car instance                 -> validate id is unique
              -> validate license plate format?       
              -> manage undo/redo? 
-             
+
 Simple Feature-Driven Development
-    -> pick one feature (e.g. adding a car) and implement it (ui to repo)
+   -> pick one feature (e.g. adding a car) and implement it (ui to repo)
+
+TODO (using Car class as example):
+    1. Implement Car class
+    2. Implement Repository class + RepoException class (RepoException is raised by the Repository methods)
+        - has a (private) list of cars
+        - add a car, get_all cars
+    3. Implement CarService class
+        - has an instance of Repository
+        - add a car, get_all cars
+    4. Implement the UI
+        - add a car
+        - print all cars
 """
 
 

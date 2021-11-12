@@ -1,10 +1,15 @@
+from seminar.group_917.seminar_06_09.repository.repository_exception import RepositoryException
+
+
 class CarRepository:
+    # TODO Finish implementation
     def __init__(self):
-        self._data = []
+        self._data = {}
 
     def add(self, car):
-        # TODO Check for ID duplicates
-        self._data.append(car)
+        if car.id in self._data.keys():
+            raise RepositoryException("Duplicate Car id")
+        self._data[car.id] = car
 
     def filter(self, license=None, make=None, model=None, color=None):
         """
@@ -36,13 +41,3 @@ class CarRepository:
             pass
 
         return result
-
-
-"""
-    What to do for seminar 7
-    1. Implement the generate_cars() function
-    2. Implement the filter() function
-    3. Generate 20 cars
-    4. Add them to the repository
-    5. Try out the filters!
-"""

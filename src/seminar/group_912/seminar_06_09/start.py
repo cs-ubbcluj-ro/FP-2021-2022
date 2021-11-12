@@ -64,7 +64,7 @@ How do these layers work?
 
 Simple Feature-Driven Development
    -> pick one feature (e.g. adding a car) and implement it (ui to repo)
-   
+
 TODO (using Car class as example):
     1. Implement Car class
     2. Implement Repository class + RepoException class (RepoException is raised by the Repository methods)
@@ -77,24 +77,3 @@ TODO (using Car class as example):
         - add a car
         - print all cars
 """
-
-
-# ValueError, TypeError, KeyError -> classes of type Exception (inheritance)
-class RepoException(Exception):  # inheritance in Python
-    """
-    RepoException class is a subtype of Exception
-    Every RepoException is also an Exception
-    """
-    pass
-
-
-class Repository:
-    pass
-
-
-# raise RepoException
-
-try:
-    print('x')
-except RepoException as re:
-    print(re)
