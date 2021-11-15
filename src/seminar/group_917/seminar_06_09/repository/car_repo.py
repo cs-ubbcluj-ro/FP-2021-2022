@@ -14,6 +14,15 @@ class CarRepository:
             raise RepositoryException("Duplicate Car id")
         self._data[car.id] = car
 
+    def __len__(self):
+        return len(self._data)
+
+    def __getitem__(self, item):
+        try:
+            return self._data[item]
+        except KeyError:
+            raise RepositoryException("Car id not found")
+
     def filter(self, license=None, make=None, model=None, color=None):
         """
         Filter cars by their parameters
