@@ -27,3 +27,57 @@ class CarService:
         for rent in rentals:
             self._rental_service.delete_rental(rent.id, False)
         return car
+
+    """
+        Statistics
+         The list of all cars in the car pool sorted by number of days they were rented
+    """
+
+    def most_rented_cars(self):
+        cars_rentals_dict = {}
+        """
+        What do we need to do?
+
+        For each car
+            - count the number of days it was rented for 
+                cars_rentals_dict[car] = 0 # initialize car that is not (yet) rented
+                ...
+                cars_rentals_dict[car] += len(car_rental) # add the number of days of current rental
+
+        Transform the dict into a list so we can move it into the UI
+        
+        Sort this list
+            result = []
+            result.append(CarDayCountDTO(Car('102', 'CJ 10 TOY', 'Toyota', 'RAV4', 'blue'), 5))
+            result.append(CarDayCountDTO(Car('103', 'CJ 10 TOY', 'Toyota', 'RAV4', 'blue'), 2))
+            result.append(CarDayCountDTO(Car('104', 'CJ 10 TOY', 'Toyota', 'RAV4', 'blue'), 7))
+            result.sort(key=lambda x: x.no_days, reverse=True)
+            for dto in result:
+                print(dto.car.id, dto.no_days)
+        
+        Return it
+        
+        :return:
+        """
+        pass
+
+
+class CarDayCountDTO:
+    """
+    Data transfer object that holds a car and a day count
+    """
+
+    def __init__(self, car, no_days):
+        self._car = car
+        self._no_days = no_days
+
+    @property
+    def car(self):
+        return self._car
+
+    @property
+    def no_days(self):
+        return self._no_days
+
+    def __le__(self, other):
+        return self.no_days < other.no_days

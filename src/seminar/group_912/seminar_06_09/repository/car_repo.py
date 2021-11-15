@@ -154,3 +154,4 @@ class CarRepositoryTest(unittest.TestCase):
     unittest module (and many other similar ones) solve these issues
 """
 # test_car_repository()
+unittest.main()
