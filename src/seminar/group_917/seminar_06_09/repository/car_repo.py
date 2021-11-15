@@ -1,3 +1,6 @@
+import unittest
+
+from seminar.group_917.seminar_06_09.domain.car import Car
 from seminar.group_917.seminar_06_09.repository.repository_exception import RepositoryException
 
 
@@ -41,3 +44,95 @@ class CarRepository:
             pass
 
         return result
+
+
+def test_car_repo():
+    r = CarRepository()
+
+    r.add(Car('100', 'CJ 11 WER', 'Dacia', 'Sandero', 'red'))
+    r.add(Car('101', 'CJ 12 WTP', 'Dacia', 'Sandero', 'blue'))
+
+    car_102 = Car('102', 'CJ 13 WER', 'Dacia', 'Sandero', 'red')
+    r.add(car_102)
+    r.add(Car('103', 'CJ 14 TOY', 'Toyota', 'Avansis', 'red'))
+    r.add(Car('104', 'CJ 15 WER', 'Dacia', 'Sandero', 'black'))
+    r.add(Car('105', 'CJ 16 ABC', 'Dacia', 'Sandero', 'red'))
+
+    assert len(r) == 6
+    # get car with id '102'
+    assert r['102'] == car_102
+    # also check with __str__
+    assert str(r['104']) == str(Car('104', 'CJ 15 WER', 'Dacia', 'Sandero', 'black'))
+
+    # raise RepositoryException
+    try:
+        assert r['200'] is None
+    except RepositoryException as re:
+        # test pass
+        pass
+    except Exception as exc:
+        assert False
+
+
+class CarRepositoryAnotherTest(unittest.TestCase):
+    def test_car_dummy(self):
+        pass
+
+
+class CarRepositoryTest(unittest.TestCase):
+    def setUp(self) -> None:
+        """
+        Runs before any of the defined tests
+        """
+        self._r = CarRepository()
+
+        self._r.add(Car('100', 'CJ 11 WER', 'Dacia', 'Sandero', 'red'))
+        self._r.add(Car('101', 'CJ 12 WTP', 'Dacia', 'Sandero', 'blue'))
+
+        self._car_102 = Car('102', 'CJ 13 WER', 'Dacia', 'Sandero', 'red')
+        self._r.add(self._car_102)
+        self._r.add(Car('103', 'CJ 14 TOY', 'Toyota', 'Avansis', 'red'))
+        self._r.add(Car('104', 'CJ 15 WER', 'Dacia', 'Sandero', 'black'))
+        self._r.add(Car('105', 'CJ 16 ABC', 'Dacia', 'Sandero', 'red'))
+
+    def test_repo_elems(self):
+        # assert len(self._r) == 6, 'Lengths not equal!'
+        self.assertEqual(len(self._r), 6, 'Lengths not equal!' + str(self._r))
+
+        # get car with id '102'
+        # assert self._r['102'] == self._car_102
+        self.assertEqual(self._r['102'], self._car_102)
+        # also check with __str__
+        # assert str(self._r['104']) == str(Car('104', 'CJ 15 WER', 'Dacia', 'Sandero', 'black'))
+        self.assertEqual(str(self._r['104']), str(Car('104', 'CJ 15 WER', 'Dacia', 'Sandero', 'black')))
+
+    def test_repo_exception(self):
+        # raise RepositoryException
+        # try:
+        #     assert self._r['200'] is None
+        # except RepositoryException as re:
+        #     # test pass
+        #     pass
+        # except Exception as exc:
+        #     assert False
+
+        # self._r.__getItem__ ?
+        # self.assertRaises(RepositoryException, self._r['200'], '200')
+
+        with self.assertRaises(RepositoryException):
+            self._r['200']
+
+    def tearDown(self) -> None:
+        """
+        Runs after all tests are completed
+        """
+
+
+"""
+    Why don't we stick with this way of writing tests?
+    1. They can be all over the place -> have a test module 
+    2. First False assertion stops all tests
+    3. Separate running the program from running tests
+    4. Have a nicer way of reporting test results (more flex with test results)
+"""
+# test_car_repo()
