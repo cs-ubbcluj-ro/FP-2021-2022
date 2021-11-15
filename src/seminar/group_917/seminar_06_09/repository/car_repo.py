@@ -135,6 +135,7 @@ class CarRepositoryTest(unittest.TestCase):
         """
         Runs after all tests are completed
         """
+        pass
 
 
 """
@@ -145,3 +146,8 @@ class CarRepositoryTest(unittest.TestCase):
     4. Have a nicer way of reporting test results (more flex with test results)
 """
 # test_car_repo()
+
+"""
+    Alternative to run unittest code 
+"""
+# unittest.main()
