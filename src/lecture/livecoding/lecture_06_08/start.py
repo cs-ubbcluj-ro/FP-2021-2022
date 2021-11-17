@@ -1,8 +1,7 @@
-from lecture.livecoding.lecture_06_08.domain.ingredient import Ingredient
+from lecture.livecoding.lecture_06_08.domain.Ingredient import Ingredient
+from lecture.livecoding.lecture_06_08.domain.Recipe import Recipe
+from lecture.livecoding.lecture_06_08.domain.Stock import Stock
 from lecture.livecoding.lecture_06_08.repo.repository import Repository
-from lecture.livecoding.lecture_06_08.services.ingredientService import IngredientService
-from lecture.livecoding.lecture_06_08.services.productService import ProductService
-from lecture.livecoding.lecture_06_08.ui.ui import UI
 
 """
 The Happy Bakery is a family-run business that produces and sells bakery and confectionary products.
@@ -14,18 +13,18 @@ What does this entail?
     c. Keep the stock for each ingredient and product
     e. Show used ingredients, sorted in descending order of amount used.
 
-domain entities?
+domain entities? ( <...> denotes an entire object)
     -> Ingredient
-        - id, description, stock (default in grams), expiration date
-    -> IngredientQuantity
-        - ingredient, quantity
+        - id, description, expiration date
+    -> Stock
+        - <Ingredient>, quantity
     -> Recipe
         - id
-        - list of IngredientQuantity
+        - list of <Stock>
         - list of steps
     -> Product
         - id
-        - recipe, stock
+        - <Recipe>
 """
 
 """
@@ -59,21 +58,66 @@ Modules -> responsible for one thing only (SRP)
         -> independent & interchangeable (text-file storage vs. SQL storage)
 """
 
+
 # Assemble and start the program
-# what we do here is an early version of dependency injection
+# TODO Make this work
+def create_ingredient_repo():
+    repo = Repository()
+    repo.add(Ingredient(100, "Bread Flour (White, 550)"))
+    repo.add(Ingredient(101, "Yeast (dry)"))
+    repo.add(Ingredient(102, "Sugar (white)"))
+    repo.add(Ingredient(103, "Salt (regular)"))
+    repo.add(Ingredient(104, "Oil (canola)"))
+    repo.add(Ingredient(105, "Butter"))
+    repo.add(Ingredient(106, "Egg (chicken)"))
+    repo.add(Ingredient(107, "Cake flour"))
+    repo.add(Ingredient(108, "Baking powder"))
+    repo.add(Ingredient(109, "Vanilla (extract)"))
+    return repo
 
-# 1. Pick which repository implementation we want to use
-ingr_repo = Repository()
-prod_repo = Repository()
 
-ingr_repo.add(Ingredient(100, 'flour', 100))
+def create_bread_recipe(ingredients_repo):
+    """
+    1 package (1/4 ounce) active dry yeast
+    2-1/4 cups warm water (110° to 115°)
+    3 tablespoons sugar plus 1/2 teaspoon sugar
+    1 tablespoon salt
+    2 tablespoons canola oil
+    6-1/4 to 6-3/4 cups bread flour
+    source: https://www.tasteofhome.com/recipes/basic-homemade-bread/
+    """
+    recipe = Recipe(500, "Basic Homemade Bread")
+    recipe.required_stocks.append(Stock(ingredients_repo[101], 20))
+    recipe.required_stocks.append(Stock(ingredients_repo[102], 30))
+    recipe.required_stocks.append(Stock(ingredients_repo[103], 5))
+    recipe.required_stocks.append(Stock(ingredients_repo[104], 10))
+    recipe.required_stocks.append(Stock(ingredients_repo[100], 1000))
+    return recipe
 
-# 2. Start the service to work with the selected repository
-ingr_service = IngredientService(ingr_repo)
-prod_service = ProductService(prod_repo)
 
-# 3. Start the UI with the initialized services
-ui = UI(ingr_service, prod_service)
+def create_cake_recipe(ingredients_repo):
+    """
+    175g (6oz) margarine or softened butter
+    175g (6oz) caster sugar
+    3 large eggs
+    175g (6oz) self-raising flour, sifted
+    1tsp baking powder
+    1tsp vanilla extract
+    pinch of salt
+    source: https://www.houseandgarden.co.uk/recipe/simple-vanilla-cake-recipe
+    """
+    recipe = Recipe(501)
+    recipe.required_stocks.append(Stock(ingredients_repo[105], 175))
+    recipe.required_stocks.append(Stock(ingredients_repo[102], 175))
+    recipe.required_stocks.append(Stock(ingredients_repo[106], 3))
+    recipe.required_stocks.append(Stock(ingredients_repo[107], 175))
+    recipe.required_stocks.append(Stock(ingredients_repo[108], 5))
+    recipe.required_stocks.append(Stock(ingredients_repo[109], 5))
+    recipe.required_stocks.append(Stock(ingredients_repo[103], 2))
+    return recipe
 
-# 4. Start the program
-ui.start()
+
+ingredient_repo = create_ingredient_repo()
+recipe_repo = Repository()
+recipe_repo.add(create_bread_recipe(ingredient_repo))
+recipe_repo.add(create_cake_recipe(ingredient_repo))

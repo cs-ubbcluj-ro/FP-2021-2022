@@ -1,4 +1,6 @@
-from lecture.livecoding.lecture_06_08.domain.ingredient import Ingredient
+import unittest
+
+from lecture.livecoding.lecture_06_08.domain.Ingredient import Ingredient
 
 
 class RepositoryException(Exception):
@@ -39,5 +41,4 @@ def test_repository():
 
     # repo.add(Ingredient(100, "White flour 550", 100))
 
-
-test_repository()
+# test_repository()
