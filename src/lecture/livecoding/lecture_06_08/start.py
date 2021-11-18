@@ -15,9 +15,9 @@ What does this entail?
 
 domain entities? ( <...> denotes an entire object)
     -> Ingredient
-        - id, description, expiration date
+        - id, description
     -> Stock
-        - <Ingredient>, quantity
+        - <Ingredient>, quantity, expiration date
     -> Recipe
         - id
         - list of <Stock>

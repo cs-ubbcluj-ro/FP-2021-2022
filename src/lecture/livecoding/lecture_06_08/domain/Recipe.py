@@ -1,13 +1,12 @@
-class Recipe:
+from lecture.livecoding.lecture_06_08.domain.IdObject import IdObject
+
+
+class Recipe(IdObject):
     def __init__(self, _id, description, *required_stocks):
         # TODO Finish implementation for required stocks
-        self._id = _id
+        super().__init__(_id)
         self._description = description
-        self._required_stocks = required_stocks
-
-    @property
-    def id(self):
-        return self.__id
+        self._required_stocks = list(required_stocks)
 
     @property
     def description(self):

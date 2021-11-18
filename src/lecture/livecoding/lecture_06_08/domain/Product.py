@@ -1,11 +1,11 @@
-class Product:
-    def __init__(self, _id, recipe):
-        self._id = _id
-        self._recipe = recipe
+from lecture.livecoding.lecture_06_08.domain.IdObject import IdObject
+from lecture.livecoding.lecture_06_08.repo.repository import Repository
 
-    @property
-    def id(self):
-        return self.__id
+
+class Product(IdObject):
+    def __init__(self, _id, recipe):
+        super().__init__(_id)
+        self._recipe = recipe
 
     @property
     def recipe(self):
