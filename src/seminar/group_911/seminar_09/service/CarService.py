@@ -26,7 +26,7 @@ class CarService:
         '''
         rentals = self._rental_service.filter_rentals(None, car)
         for rent in rentals:
-            self._rental_service.delete_rental(rent.id, False)
+            self._rental_service.delete_rental(rent.id)
         return car
 
     def update(self, car):
