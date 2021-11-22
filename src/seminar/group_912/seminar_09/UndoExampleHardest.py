@@ -47,8 +47,8 @@ def undo_example_hardest():
     '''
     sophia = client_service.create(103, "2990511035588", "Sophia")
     hyundai_tucson = car_service.create(201, "CJ 02 TWD", "Hyundai", "Tucson")
-    rent_service.create(301, sophia, hyundai_tucson, date(2016, 11, 1), date(2016, 11, 30))
-    rent_service.create(302, sophia, hyundai_tucson, date(2016, 12, 1), date(2016, 12, 31))
+    rent_service.create_rental(301, sophia, hyundai_tucson, date(2016, 11, 1), date(2016, 11, 30))
+    rent_service.create_rental(302, sophia, hyundai_tucson, date(2016, 12, 1), date(2016, 12, 31))
 
     print_repos_with_message("We added Sophia, the Hyundai and its 2 rentals", client_repo, car_repo, rent_repo)
 
