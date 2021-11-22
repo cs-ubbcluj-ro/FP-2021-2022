@@ -15,6 +15,9 @@ class RentalService:
 
         self._undoController = undo_service
 
+    # def get_repo(self):
+    #     return self._repository
+
     def create_rental(self, rental_id, client, car, start, end):
         rental = Rental(rental_id, start, end, client, car)
         self._validator.validate(rental)
