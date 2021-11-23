@@ -1,7 +1,8 @@
 from lecture.livecoding.lecture_06_08.domain.Ingredient import Ingredient
 from lecture.livecoding.lecture_06_08.domain.Recipe import Recipe
 from lecture.livecoding.lecture_06_08.domain.Stock import Stock
-from lecture.livecoding.lecture_06_08.repo.repository import Repository
+from lecture.livecoding.lecture_06_08.repo.repository import Repository, \
+    IngredientTextFileRepository, IngredientBinFileRepository
 
 """
 The Happy Bakery is a family-run business that produces and sells bakery and confectionary products.
@@ -62,17 +63,33 @@ Modules -> responsible for one thing only (SRP)
 # Assemble and start the program
 # TODO Make this work
 def create_ingredient_repo():
-    repo = Repository()
-    repo.add(Ingredient(100, "Bread Flour (White, 550)"))
-    repo.add(Ingredient(101, "Yeast (dry)"))
-    repo.add(Ingredient(102, "Sugar (white)"))
-    repo.add(Ingredient(103, "Salt (regular)"))
-    repo.add(Ingredient(104, "Oil (canola)"))
-    repo.add(Ingredient(105, "Butter"))
-    repo.add(Ingredient(106, "Egg (chicken)"))
-    repo.add(Ingredient(107, "Cake flour"))
-    repo.add(Ingredient(108, "Baking powder"))
-    repo.add(Ingredient(109, "Vanilla (extract)"))
+    """
+    We should be able to switch between repo implementation without the rest of the
+    program knowing or caring about this
+
+    modules = independent AND interchangeable
+    """
+
+    # Binary file repository for ingredients
+    # repo = IngredientBinFileRepository()
+
+    # Text file repository for ingredients
+    repo = IngredientTextFileRepository()
+
+    # in-memory repository for ingredients
+    # repo = Repository()
+    # repo.add(Ingredient(100, "Bread Flour (White, 550)"))
+    # repo.add(Ingredient(101, "Yeast (dry)"))
+    # repo.add(Ingredient(102, "Sugar (white)"))
+    # repo.add(Ingredient(103, "Salt (regular)"))
+    # repo.add(Ingredient(104, "Oil (canola)"))
+    # repo.add(Ingredient(105, "Butter"))
+    # repo.add(Ingredient(106, "Egg (chicken)"))
+    # repo.add(Ingredient(107, "Cake flour"))
+    # repo.add(Ingredient(108, "Baking powder"))
+    # repo.add(Ingredient(109, "Vanilla (extract)"))
+
+    print(len(repo))
     return repo
 
 
@@ -106,7 +123,7 @@ def create_cake_recipe(ingredients_repo):
     pinch of salt
     source: https://www.houseandgarden.co.uk/recipe/simple-vanilla-cake-recipe
     """
-    recipe = Recipe(501)
+    recipe = Recipe(501, "Tasty Cookies")
     recipe.required_stocks.append(Stock(ingredients_repo[105], 175))
     recipe.required_stocks.append(Stock(ingredients_repo[102], 175))
     recipe.required_stocks.append(Stock(ingredients_repo[106], 3))
@@ -117,7 +134,24 @@ def create_cake_recipe(ingredients_repo):
     return recipe
 
 
+"""
+    Repository
+    in-memory implementation
+        + able to store program data
+        + has a single responsibility
+        - it should handle persistence, but it doesn't
+        
+        persistence = keep data from previous program runs
+        how do we persist data?
+            -> files (text OR binary)
+            -> files (+ relational algebra sprinked on top = SQL database)
+            -> files (+ something else = NoSQL database) 
+    
+    
+"""
 ingredient_repo = create_ingredient_repo()
 recipe_repo = Repository()
 recipe_repo.add(create_bread_recipe(ingredient_repo))
 recipe_repo.add(create_cake_recipe(ingredient_repo))
+
+print("Recipe repo size - ", str(len(recipe_repo)))
