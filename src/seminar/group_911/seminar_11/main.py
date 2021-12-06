@@ -16,9 +16,9 @@ dacia_sandero = Car(203, "IS 99 RTY", "Dacia", "Sandero")
 
 # 301, 104, 201, 2016-11-1, 2016-11-30
 # when loading, first load client 104 and car 201 -> then load rental repo data
-rental_sophia_tucson = Rental(301, sophia, hyundai_tucson, date(2016, 11, 1), date(2016, 11, 30))
-rental_sophia_toyota = Rental(302, sophia, hyundai_tucson, date(2016, 12, 1), date(2016, 12, 31))
-rental_bob_dacia = Rental(303, bob, dacia_sandero, date(2021, 12, 1), date(2021, 12, 31))
+rental_sophia_tucson = Rental(301, date(2016, 11, 1), date(2016, 11, 30), sophia, hyundai_tucson)
+rental_sophia_toyota = Rental(302, date(2016, 12, 1), date(2016, 12, 31), sophia, hyundai_tucson)
+rental_bob_dacia = Rental(303, date(2021, 12, 1), date(2021, 12, 31), bob, dacia_sandero)
 
 """
     1. Start up an in-memory repository

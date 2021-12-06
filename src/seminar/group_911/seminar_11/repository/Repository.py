@@ -47,7 +47,7 @@ class Repository:
         return object
 
     def getAll(self):
-        return self._objects;
+        return self._objects
 
     def __len__(self):
         return len(self._objects)

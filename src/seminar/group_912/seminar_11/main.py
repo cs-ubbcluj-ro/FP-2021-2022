@@ -17,9 +17,9 @@ dacia_sandero = Car(203, "IS 99 RTY", "Dacia", "Sandero")
 # TODO Make sure that after reading from input files, Rentals are still linked to Car & Client objects
 #   Persist the client and car ID when writing rentals to file
 #   When loading rentals from file, we should have cars & clients already available
-rental_sophia_toyota = Rental(302, sophia, hyundai_tucson, date(2016, 12, 1), date(2016, 12, 31))
-rental_sophia_tucson = Rental(301, sophia, hyundai_tucson, date(2016, 11, 1), date(2016, 11, 30))
-rental_bob_dacia = Rental(303, bob, dacia_sandero, date(2021, 12, 1), date(2021, 12, 31))
+rental_sophia_tucson = Rental(301, date(2016, 11, 1), date(2016, 11, 30), sophia, hyundai_tucson)
+rental_sophia_toyota = Rental(302, date(2016, 12, 1), date(2016, 12, 31), sophia, hyundai_tucson)
+rental_bob_dacia = Rental(303, date(2021, 12, 1), date(2021, 12, 31), bob, dacia_sandero)
 
 """
     1. Use in-memory Repository
