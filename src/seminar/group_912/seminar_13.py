@@ -13,6 +13,61 @@
 2. Calculate the r-th root of a given number x with a given precision p
 """
 
+
+# Non-recursive solution
+def n_th_root(n, r, p):
+    if n < 1:
+        low = 0
+        high = 1
+    else:
+        low = 1
+        high = n
+    mid = (low + high) / 2
+    while not (mid ** r - p <= n <= mid ** r + p):
+        if mid ** r < n:
+            low = (high + low) / 2
+        else:
+            high = (high + low) / 2
+        mid = (high + low) / 2
+    return mid
+
+
+# Recursive Solution #
+def binary_search(start, end, a, b, r):
+    mid = (start + end) / 2
+    if a <= mid ** r <= b:
+        return mid
+
+    if mid ** r > b:
+        return binary_search(start, mid - 1, a, b, r)
+    elif mid ** r < a:
+        return binary_search(mid + 1, end, a, b, r)
+
+
+def recursive_solution(n, r, p):
+    a = n - p
+    b = n + p
+    x = binary_search(0, n, a, b, r)
+    return x
+
+
+import random
+
+
+# Random testing
+def test_recursive_solution():
+    for i in range(1000):
+        n = random.randint(0, 10)
+        r = random.randint(2, 20)
+        p = 1 / 10 ** random.randint(1, 6)
+
+        x = recursive_solution(n, r, p)
+        # print(n, r, p, x)
+        assert n - p <= x ** r <= n + p
+
+
+# test_recursive_solution()
+
 """
 3. Calculate the maximum subarray sum (subarray = elements having continuous indices)
     a. Naive implementation
@@ -66,7 +121,7 @@ def bkt_rec(x, n):
                 bkt_rec(x[:], n)
 
 
-# print(bkt_rec([], 4))
+bkt_rec([], 4)
 
 """
 5. Change the code for generating the permutation above to work for the n-Queen problem

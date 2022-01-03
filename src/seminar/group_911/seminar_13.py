@@ -13,6 +13,76 @@
 2. Calculate the r-th root of a given number x with a given precision p
 """
 
+
+def get_lower_bound(number):
+    if number >= 1:
+        return 1
+    else:
+        return 0
+
+
+def get_upper_bound(number):
+    if number >= 1:
+        return number
+    else:
+        return 1
+
+
+def search_root(root_order, number, precision):
+    return search_root_implementation(get_lower_bound(number), get_upper_bound(number), root_order, number, precision)
+
+
+def search_root_implementation(lower, upper, root_order, number, precision):
+    middle = lower + ((upper - lower) / 2)
+    approximation = middle ** root_order
+    if number - precision <= approximation <= number + precision:
+        return middle
+
+    if approximation < number - precision:
+        return search_root_implementation(middle, upper, root_order, number, precision)
+    else:
+        return search_root_implementation(lower, middle, root_order, number, precision)
+
+
+# Badea Dan
+"""
+r-th root of a number with precision p ( non recursive )
+"""
+
+
+def search_root_ab(r, n, p):
+    a = 1
+    b = 1
+
+    while (a / b) ** r < n - p or (a / b) ** r > n + p:
+        if (a / b) ** r > n + p:
+            b = b + 1
+        else:
+            a = a + 1
+    return a / b
+
+
+import random
+
+
+# Random testing
+def test_search_root():
+    for i in range(1000):
+        n = random.randint(0, 10)
+        r = random.randint(2, 20)
+        p = 1 / (10 ** random.randint(1, 6))
+
+        # x = search_root(r, n, p)
+        x = search_root_ab(r, n, p)
+
+        print(n, r, p, x)
+        assert n - p <= x ** r <= n + p
+
+
+# test_search_root()
+# Cirstea Andrei (I think it's working)
+
+
 """
 3. Calculate the maximum subarray sum (subarray = elements having continuous indices)
     a. Naive implementation
@@ -66,7 +136,7 @@ def bkt_rec(x, n):
                 bkt_rec(x[:], n)
 
 
-# print(bkt_rec([], 4))
+bkt_rec([], 4)
 
 """
 5. Change the code for generating the permutation above to work for the n-Queen problem
